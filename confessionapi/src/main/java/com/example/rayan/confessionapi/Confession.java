@@ -12,10 +12,12 @@ public class Confession {
     @Id
     private String id;
     private String confession;
+    private String authorEmail;
     private LocalDateTime createdAt;
 
-    public Confession(String confession, LocalDateTime createdAt) {
+    public Confession(String confession, String authorEmail, LocalDateTime createdAt) {
         this.confession = confession;
         this.createdAt = createdAt;
+        this.authorEmail = authorEmail;
     }
 }
