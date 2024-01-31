@@ -25,31 +25,38 @@ public class ConfessionController {
     public ResponseEntity<HashMap<String, Object>> insertConfession(@RequestBody HashMap<String, String> requestBody){
         HashMap<String, Object> hashMap = new HashMap<>();
 
-        String confessionText = requestBody.get("confession");
-        String authorEmail = requestBody.get("email");
+        try {
+            String confessionText = requestBody.get("confession");
+            String authorEmail = requestBody.get("email");
 
-        if(Objects.equals(confessionText, "")
-                || confessionText == null
-                || Objects.equals(authorEmail, "")
-                || authorEmail == null
-        ){
-            hashMap.put("message", "Merci de remplir les champs requis.");
+            if(Objects.equals(confessionText, "")
+                    || confessionText == null
+                    || Objects.equals(authorEmail, "")
+                    || authorEmail == null
+            ){
+                hashMap.put("message", "Merci de remplir les champs requis.");
+                hashMap.put("success", false);
+                return new ResponseEntity<>(hashMap, HttpStatus.BAD_REQUEST);
+            }
+
+            Confession confession = new Confession(
+                    confessionText,
+                    authorEmail,
+                    LocalDateTime.now()
+            );
+
+            confessionRepository.save(confession);
+
+
+            hashMap.put("message", "la confession a bien été insérée.");
+            hashMap.put("success", true);
+
+            return new ResponseEntity<>(hashMap, HttpStatus.OK);
+        } catch (Exception e) {
             hashMap.put("success", false);
-            return new ResponseEntity<>(hashMap, HttpStatus.BAD_REQUEST);
+            hashMap.put("message", "Impossible de sauvegarder la confession, merci de réessayer.");
+
+            return new ResponseEntity<>(hashMap, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
-        Confession confession = new Confession(
-                confessionText,
-                authorEmail,
-                LocalDateTime.now()
-        );
-
-        confessionRepository.save(confession);
-
-
-        hashMap.put("message", "la confession a bien été insérée : " + confessionText);
-        hashMap.put("success", true);
-
-        return new ResponseEntity<>(hashMap, HttpStatus.OK);
     }
 }
