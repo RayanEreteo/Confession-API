@@ -55,7 +55,7 @@ public class ConfessionController {
             hashMap.put("message", "la confession a bien été envoyée.");
             hashMap.put("success", true);
 
-            return new ResponseEntity<>(hashMap, HttpStatus.OK);
+            return new ResponseEntity<>(hashMap, HttpStatus.CREATED);
         } catch (Exception e) {
             hashMap.put("success", false);
             hashMap.put("message", "Impossible de sauvegarder la confession, merci de réessayer.");
@@ -79,7 +79,7 @@ public class ConfessionController {
 
             return new ResponseEntity<>(hashMap, HttpStatus.OK);
         } catch (Exception e) {
-            hashMap.put("confession", "Impossible de récuperer une confession. Merci de réessayer.");
+            hashMap.put("confession", "Impossible de récupérer une confession. Merci de réessayer.");
 
             return new ResponseEntity<>(hashMap, HttpStatus.INTERNAL_SERVER_ERROR);
         }
