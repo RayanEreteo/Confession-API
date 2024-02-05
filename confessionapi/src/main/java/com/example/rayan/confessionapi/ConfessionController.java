@@ -75,6 +75,7 @@ public class ConfessionController {
             Query randomQuery = new Query().limit(1).skip(randomIndex);
             Confession randomConfession = mongoTemplate.findOne(randomQuery, Confession.class);
 
+            hashMap.put("success", true);
             hashMap.put("confession", randomConfession);
 
             return new ResponseEntity<>(hashMap, HttpStatus.OK);
