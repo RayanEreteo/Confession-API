@@ -85,4 +85,23 @@ public class ConfessionController {
             return new ResponseEntity<>(hashMap, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @PostMapping("/sendLove")
+    public ResponseEntity<HashMap<String, Object>> sendLove(@RequestBody HashMap<String, String> requestBody){
+        HashMap<String, Object> hashMap = new HashMap<>();
+
+        try {
+            String targetEmail = requestBody.get("targetEmail");
+
+            hashMap.put("success", true);
+            hashMap.put("message", targetEmail);
+
+            return new ResponseEntity<>(hashMap, HttpStatus.OK);
+        }catch (Exception e){
+            hashMap.put("success", false);
+            hashMap.put("message", "Impossible d'envoyer un email. Merci de réessayer.");
+
+            return new ResponseEntity<>(hashMap, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }
