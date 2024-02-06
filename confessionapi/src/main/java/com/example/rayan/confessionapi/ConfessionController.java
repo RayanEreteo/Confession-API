@@ -1,5 +1,6 @@
 package com.example.rayan.confessionapi;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.http.HttpStatus;
@@ -16,14 +17,15 @@ import java.util.Objects;
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
 public class ConfessionController {
-    private final ConfessionRepository confessionRepository;
-    private final MongoTemplate mongoTemplate;
+    @Autowired
+    private ConfessionRepository confessionRepository;
+    @Autowired
+    private MongoTemplate mongoTemplate;
+    @Autowired
+    private EmailSenderService emailSenderService;
 
     // Injection du Repo
-    public ConfessionController(ConfessionRepository confessionRepository, MongoTemplate mongoTemplate){
-        this.confessionRepository = confessionRepository;
-        this.mongoTemplate = mongoTemplate;
-    }
+
 
     @PostMapping("/insertConfession")
     public ResponseEntity<HashMap<String, Object>> insertConfession(@RequestBody HashMap<String, String> requestBody){
@@ -89,17 +91,15 @@ public class ConfessionController {
     @PostMapping("/sendLove")
     public ResponseEntity<HashMap<String, Object>> sendLove(@RequestBody HashMap<String, String> requestBody){
         HashMap<String, Object> hashMap = new HashMap<>();
-
         try {
             String targetEmail = requestBody.get("targetEmail");
 
-            hashMap.put("success", true);
-            hashMap.put("message", targetEmail);
+            emailSenderService.sendEmail("rayabf5@gmail.com", "test", "j'envoie un test");
 
             return new ResponseEntity<>(hashMap, HttpStatus.OK);
         }catch (Exception e){
             hashMap.put("success", false);
-            hashMap.put("message", "Impossible d'envoyer un email. Merci de réessayer.");
+            hashMap.put("message", e);
 
             return new ResponseEntity<>(hashMap, HttpStatus.INTERNAL_SERVER_ERROR);
         }
