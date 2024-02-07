@@ -94,7 +94,7 @@ public class ConfessionController {
         try {
             String targetEmail = requestBody.get("targetEmail");
 
-            emailSenderService.sendEmail("rayabf5@gmail.com", "test", "j'envoie un test");
+            emailSenderService.sendEmail(targetEmail, "LaConfession | Vous avez reçu de l'amour. ", "Une perssone vous à envoyer un coeur.");
 
             return new ResponseEntity<>(hashMap, HttpStatus.OK);
         }catch (Exception e){
