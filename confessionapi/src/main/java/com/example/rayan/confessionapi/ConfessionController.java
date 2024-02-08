@@ -95,8 +95,8 @@ public class ConfessionController {
             String targetEmail = requestBody.get("targetEmail");
 
             emailSenderService.sendEmail(targetEmail,
-                    "LaConfession | Vous avez reçu de l'amour. ",
-                    "Un inconnu vous à envoyer du soutien.");
+                    "La Confession | Vous avez reçu de l'amour. ",
+                    "Un inconnu vous à envoyer un coeur ❤️.");
 
             return new ResponseEntity<>(hashMap, HttpStatus.OK);
         }catch (Exception e){
@@ -110,6 +110,13 @@ public class ConfessionController {
     @PostMapping("/sendComment")
     public ResponseEntity<HashMap<String, Object>> sendComment(@RequestBody HashMap<String, String> requestBody){
         HashMap<String, Object> hashMap = new HashMap<>();
+
+        String targetEmail = requestBody.get("targetEmail");
+        String comment = requestBody.get("comment");
+
+        emailSenderService.sendEmail(targetEmail, "La Confession | Vous avez reçu un commentaire", comment);
+
+        hashMap.put("success", true);
 
         return new ResponseEntity<>(hashMap, HttpStatus.OK);
     }
