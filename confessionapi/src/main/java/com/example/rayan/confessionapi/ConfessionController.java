@@ -24,8 +24,6 @@ public class ConfessionController {
     @Autowired
     private EmailSenderService emailSenderService;
 
-    // Injection du Repo
-
 
     @PostMapping("/insertConfession")
     public ResponseEntity<HashMap<String, Object>> insertConfession(@RequestBody HashMap<String, String> requestBody){
